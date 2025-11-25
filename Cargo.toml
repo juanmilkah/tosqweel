@@ -1,0 +1,9 @@
+[package]
+name = "tosqweel"
+version = "0.1.0"
+edition = "2024"
+description = "Json to Sql transformation"
+authors = ["Juan Milkah <juanmilkah@proton.me>"]
+
+[dependencies]
+anyhow = "1"
