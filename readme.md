@@ -6,4 +6,4 @@ Json to Sql migrations.
 cargo run -- todos.json
 ```
 
-(License)[LICENSE]
+[License](LICENSE)
