@@ -56,6 +56,34 @@ impl std::fmt::Display for Token {
     }
 }
 
+// Skips the up to and including the delimeters
+fn skip_to_delimeters(data: &[char], first: char, second: char) -> &[char] {
+    let mut i = 0;
+    loop {
+        while i < data.len() && data[i] != first {
+            i += 1;
+        }
+        if i + 1 < data.len() && data[i + 1] != second {
+            i += 1; // skip first
+            continue;
+        }
+        i += 2; //skip first and second
+        break;
+    }
+
+    &data[i..]
+}
+
+// Skips the up to and including the delimeter
+fn skip_to_delimeter(data: &[char], delim: char) -> &[char] {
+    let mut i = 0;
+    while i < data.len() && data[i] != delim {
+        i += 1;
+    }
+    i += 1;
+    &data[i..]
+}
+
 fn skip_whitespace(data: &[char]) -> &[char] {
     let mut i = 0;
     while i < data.len() && data[i].is_whitespace() {
@@ -75,6 +103,15 @@ fn tokenize(data: &[char]) -> anyhow::Result<Vec<Token>> {
         }
 
         match rest[0] {
+            // single line comment
+            '/' if rest[1] == '/' => {
+                rest = skip_to_delimeter(rest, '\n');
+            }
+            // multi-line comments
+            '/' if rest[1] == '*' => {
+                rest = &rest[2..];
+                rest = skip_to_delimeters(rest, '*', '/');
+            }
             '{' => {
                 tokens.push(Token::LeftBrace);
                 rest = &rest[1..];
