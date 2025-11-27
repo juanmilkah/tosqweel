@@ -1,9 +1,9 @@
 # Tosqweel
 
-Json to Sql migrations.
+Jsonc to Sql migrations.
 
 ```console
-cargo run -- todos.json
+cargo run -- todos.jsonc
 ```
 
 [License](LICENSE)
